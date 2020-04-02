@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 import Chat from './pages/Chat';
 import Home from './pages/Home';
@@ -33,12 +33,26 @@ function PublicRoute({ component: Component, authenticated, ...rest }) {
   )
 }
 
+//---------------------------------------------------------------
 
 function App() {
-  return (
-    <div className="App">
 
-    </div>
+  const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
+
+  return (
+    loading === true
+      ? <h2>Loading...</h2>
+      : (
+        <Router>
+          <Switch>
+            <Route exact path="/" component={Home}></Route>
+            <PrivateRoute path="/chat" authenticated={authenticated} component={Chat}></PrivateRoute>
+            <PrivateRoute path="/signup" authenticated={authenticated} component={Signup}></PrivateRoute>
+            <PublicRoute path="/login" authenticated={authenticated} component={Login}></PublicRoute>
+          </Switch>
+        </Router>
+      )
   );
 }
 
