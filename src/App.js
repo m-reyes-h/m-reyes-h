@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Route, BrowserRouter as Router, Switch, Redirect } from 'react-router-dom';
 import Chat from './pages/Chat';
-import Home from './pages/Home';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -39,6 +38,22 @@ function App() {
 
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
+  
+  //---------------------------------------------------------------
+
+  useEffect(() => {
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        setAuthenticated(true);
+        setLoading(false);
+      } else {
+        setAuthenticated(false);
+        setLoading(true);
+      }
+    })
+  });
+  
+  //---------------------------------------------------------------
 
   return (
     loading === true
