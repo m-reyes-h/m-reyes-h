@@ -50,24 +50,19 @@ function PublicRoute({ component: Component, authenticated, ...rest }) {
 //---------------------------------------------------------------
 
 function App() {
-  const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
 
   useEffect(() => {
-    auth.onAuthStateChanged(user => {
+    auth().onAuthStateChanged(user => {
       if (user) {
         setAuthenticated(true);
-        setLoading(false);
       } else {
         setAuthenticated(false);
-        setLoading(false);
       }
     });
-  });
+  }, [authenticated]);
 
-  return loading === true ? (
-    <h2>Loading...</h2>
-  ) : (
+  return (
     <Router>
       <Switch>
         <Route exact path="/" component={Home}></Route>
